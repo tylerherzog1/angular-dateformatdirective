@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {Component, OnInit } from '@angular/core';
+import {FormControl, Validators, ValidatorFn, AbstractControl} from '@angular/forms';
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
@@ -45,6 +45,8 @@ export class AppComponent implements OnInit {
   public date = new FormControl(moment());
 
   ngOnInit(): void {
+    this.date.setValidators([Validators.required, DateMinYearValidator()])
+
     this.date.valueChanges.subscribe(val => {
       if(this.date.errors !== null){
         console.log(this.date.errors);
@@ -52,6 +54,16 @@ export class AppComponent implements OnInit {
     });
   }
 
+}
+
+export function DateMinYearValidator(minYear: number = 1950): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: boolean} | null => {
+    let yearVal = new Date(control.value).getFullYear();
+    if(yearVal < minYear){
+      return { 'InvalidYear': true };
+    }
+    return null;
+  }
 }
 
 

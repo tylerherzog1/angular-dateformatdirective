@@ -6,6 +6,7 @@
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp></mat-datepicker>
   <mat-error *ngIf="date?.hasError('matDatepickerParse')">Invalid format. Use MM/DD/YYYY</mat-error>
+  <mat-error *ngIf="date?.hasError('InvalidYear')">Invalid year. Must be > 1950</mat-error>
 </mat-form-field>
 
 <p>Current value of control: <span>{{date.value}}</span></p>
